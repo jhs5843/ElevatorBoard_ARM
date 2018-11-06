@@ -1,0 +1,38 @@
+<html>
+	<head> 
+		<meta charset ="utf-8"> <!--문자 코드셋 정의 -->
+	</head>
+<body>
+	<input id="number" type="text" onkeypress = "if (event.keyCode ==13) btnclick();">
+	<button onclick="btnclick()"> 확인! </button><!-- button --><br><br>
+	<div style="position:relative; border:1px solid black; border-radius : 10px; padding:5px; box-shadow: 10px 10px 5px silver  "id="block1"> 1부터 500까지 숫자를 입력하세요. </div><br><br>
+	<img id = "img" >
+
+</body>
+	<script>
+		var result = Math.round(Math.random()*500);
+		var count =0;
+			function btnclick(){
+				count ++;
+			var a = (parseInt(document.getElementById("number").value)); 
+			if(document.getElementById("number").value==result){
+				document.getElementById("img").src = "3.jpg";
+				document.getElementById("block1").innerHTML += '<br>값은'+ a +'입니다, '+ count +' 번 만에 맞추셨네요';
+			}
+			else if(document.getElementById("number").value >result && document.getElementById("number").value <=500){ 
+				document.getElementById("block1").innerHTML += '<br>값은'+ a +'보다 작습니다';
+				document.getElementById("img").src = "2.jpg";
+			}
+			else if(document.getElementById("number").value < result){
+				document.getElementById("img").src = "1.jpg";
+				document.getElementById("block1").innerHTML += '<br>값은'+ a +'보다 큽니다';
+			}
+			else if(document.getElementById("number").value >500){
+				count --;
+				alert("1에서 500사이의 숫자를 입력해 주세요.");
+			}
+		}
+	</script>
+
+</body>
+</html>

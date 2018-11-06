@@ -1,0 +1,193 @@
+
+<html>
+
+<body>
+	<canvas id="myCanvas" width="300" height="300" style="border:1px solid black">
+	</canvas>
+	<button onclick="addbody();"></button>
+	<img src="heart.png" id="heart">
+	<div style="border:1px solid black " id="block1"> 현재 점수 : 0점 입니다</div>
+	<div style="border:1px solid black " id="block2"> 기록 <br></div>
+	<script>
+		var x = 0, y = 0;
+		var vx = 1, vy = 0;
+		var SnakeX = new Array(100);
+		var SnakeY = new Array(100);
+		var tall, n;
+		var isLive = false;
+		var appleCount =0;
+		var appleX = 5, appleY = 10;
+		var boomX =10, boomY = 20;
+		var keyFlag = false;
+		var point = new Array(100);
+		var gameCount =0;
+
+		function draw() {
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+
+			var img = document.getElementById("heart");
+			ctx.beginPath();
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+			ctx.fillStyle = "red";
+			for (var i=0; i<n; i++)
+			{
+				ctx.fillRect(SnakeX[i] * 10, SnakeY[i] * 10, 10, 10);
+			}
+			ctx.fillStyle = "blue";
+			ctx.fillRect(appleX * 10, appleY * 10, 10, 10);
+			ctx.drawImage(img, appleX * 10, appleY * 10, 10, 10);
+			ctx.fillStyle = "black";
+			ctx.fillRect(boomX * 10, boomY * 10, 10, 10);
+		}
+
+		function collision(x, y)
+		{
+			for(var i=0; i<n; i++)
+			{
+				if(x == SnakeX[i] && y == SnakeY[i])
+					return true;
+				if(x <0 || x>30||y<0||y>30)
+					return true;
+			}
+			return false;
+		}
+
+		function move() {
+			if(!isLive)
+				return;
+			x = x + vx;
+			y = y + vy;
+			keyFlag=false;
+			if (collision(x, y))
+			{
+				gameCount++;
+				point[gameCount] = appleCount;
+				document.getElementById("block2").innerHTML += gameCount +'번 째 기록 : '+ point[gameCount] +'점 입니다<br>';
+				alert('충돌했네요!! 죽었어요');
+				isLive = false;
+				return;
+			}
+
+			if (x == appleX && y == appleY)
+			{
+				var isInbody = true;
+    			while(isInbody)
+    			{
+				    appleX =Math.floor(Math.random()*21);
+				    appleY = Math.floor(Math.random()*21);
+    				isInbody = false;
+
+    				for (var i =0;i<tall; i++){
+    					if((appleX == SnakeX[i] && appleY == SnakeY[i]) || (appleX == boomX && appleY == boomY)){
+    					    isInbody = true;
+    					}
+    				}
+    			}
+    			tall = tall + 5;
+				appleCount ++;
+				document.getElementById("block1").innerHTML = '현재 점수 : '+ appleCount +'점 입니다';
+			}
+			if (x == boomX && y == boomY){
+				gameCount++;
+				point[gameCount] = appleCount;
+				document.getElementById("block2").innerHTML += gameCount +'번 째 기록 : '+ point[gameCount] +'점 입니다<br>';
+				alert('충돌했네요!! 죽었어요');
+				isLive = false;
+				return;
+			}
+			/*
+                         tall 5, n 5
+			SnakeX = [a, b, c, d, e]
+			         [b  c  d  e]  n--*/
+			if(n >= tall)
+			{
+				for(var i=0; i<n-1; i++)
+				{
+					SnakeX[i]=SnakeX[i+1];
+					SnakeY[i]=SnakeY[i+1];
+				}	
+				n--;
+			}
+
+			SnakeX[n] = x;
+			SnakeY[n] = y;
+			n++;
+
+			draw();
+		}
+		function addbody()
+		{
+			tall = tall + 5;
+		}
+		function onkeydown(evt)
+		{
+			//alert(evt.keyCode);
+			if(evt.keyCode == 37&&keyFlag == false){
+				if (vx ==1 && vy ==0){
+				}
+				else {
+				vx = -1;
+				vy = 0;
+				keyFlag=true;
+				}	
+			}
+			if(evt.keyCode == 38&&keyFlag == false){
+				if (vx ==0 && vy==1){
+				}
+				else {
+				vy = -1;
+				vx = 0;
+				keyFlag=true;
+				}
+			}
+			if(evt.keyCode == 39&&keyFlag == false){
+				if (vx==-1 && vy ==0){}
+				else {
+				vx = 1;
+				vy = 0;
+				keyFlag=true;
+				}
+			}
+			if(evt.keyCode == 40&&keyFlag == false){
+				if(vx==0 && vy ==-1){}
+				else{
+				vx = 0;
+				vy = 1;
+				keyFlag=true;
+				}
+			}
+			if(evt.keyCode == 32&&keyFlag == false){
+				if (isLive == false){
+				isLive = true;
+				x=0,y=0;
+				tall =5;
+				n=0;
+				vx = 1, vy = 0;
+				appleCount=0;
+				appleX =Math.floor(Math.random()*21);
+				appleY =Math.floor(Math.random()*21);
+				document.getElementById("block1").innerHTML = '현재 점수 : '+ appleCount +'점 입니다';
+				keyFlag=true;
+				}
+			}
+			draw();
+		}
+
+		tall = 5;
+		n = 0;
+
+		draw();
+
+		setInterval(move,80);
+
+		document.addEventListener("keydown", onkeydown);
+		
+	</script>
+
+	
+</body>
+
+</html>

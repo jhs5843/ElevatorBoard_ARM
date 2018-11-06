@@ -1,0 +1,29 @@
+<html>
+	<head> 
+		<meta charset ="utf-8"> <!--문자 코드셋 정의 -->
+	</head>
+<body>
+
+		<input id="age" type="text"/> <!-- input text box-->
+		<button onclick="btnclick()">button!</button><!-- button -->
+
+	<div style="border:1px solid black " id="block1"> ...</div>
+	<script>
+
+		var p=10;
+		var q=10;
+		var r="문자열";
+		
+		function btnclick(){
+			var a = (parseInt(document.getElementById("age").value)); 
+			console.log(a);
+			if(isNaN(a)){
+				console.log("숫자가 아닙니다.");
+			}
+			else {
+				document.getElementById("block1").innerHTML += '입력된 값은'+ a +'입니다<br>';
+			}
+		}
+	</script>
+</body>
+</html>

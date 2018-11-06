@@ -1,0 +1,54 @@
+<html>
+	<head> 
+		<meta charset ="utf-8"> <!--문자 코드셋 정의 -->
+	</head>
+<body>
+
+		<input id="age" type="text"/> <!-- input text box-->
+		<input id="password" type="password"/> <!-- input password box-->
+		<input id="date" type="date"/> <!-- input date box-->
+		<input id="email" type="email"/> <!-- input email box-->
+		<button onclick="btnclick()">button!</button><!-- button -->
+
+	<div style="position:relative; border:1px solid black; border-radius : 10px; padding:5px; box-shadow: 10px 10px 5px silver " id="block1" onmousemove ="movemouse()"> 눌러보세요</div>
+	<img id = "img1"></body>
+	<script>
+		var a = [10, "안녕하세요", 20, "하이"];
+		var b= new Array(10);
+
+		function btnclick(){ // btn func
+			for (var i =0; i<a.length;i++){
+				a[i]=a[i]+1;
+				console.log(a[i]);
+			}
+			for (var i = 0; i<b.length;i++){
+				console.log("B index="+i+":"+b[i]);
+			}
+			if(document.getElementById("age").value == "1")
+				document.getElementById("block1").innerHTML += a[0];
+
+			a.push(document.getElementById("age").value);
+		}
+		function movemouse(){ // mouse hover func
+			document.getElementById("block1").style.top = (Math.random()*500)+"px";
+		}
+		var i =0;
+		var mytop =0;
+		var velocity =0;
+		setInterval (function() { // block1 move
+			i++;
+			document.getElementById("block1").style.top = (mytop*5) +"px";
+			mytop = mytop +velocity;
+			if(mytop >100){
+				mytop =100;
+				velocity = -velocity*0.8;
+			}
+			else {
+				velocity = velocity +0.5;
+			}
+			console.log("Hi"+i);
+		}, 50);
+	
+	</script>
+</body>
+</html>
